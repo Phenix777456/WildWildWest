@@ -36,6 +36,8 @@ public class PlayerInputHendler : MonoBehaviour
     private bool _state = false;
     private bool _multiplyByTwo = true;
 
+    private bool _isStriking;
+
     public event Action SwordLaunched;
 
     public event Action TeleportRequested;
@@ -143,13 +145,19 @@ public class PlayerInputHendler : MonoBehaviour
         {
             TeleportRequested?.Invoke();
         }
-        else
+        else if (_swordController.IsLaunched == false)
         {
-            _swordComboStateBehavior.StrikeFinished += OnStrikeFinished;
-            _animatorController.SetSwordPoseTrigger();
+            if (_isStriking == false)
+                SwordStrike();
+            _isStriking = true;
             _weightController.SetRigBehavior(0);
-            _animatorController.SetLayerParameters(1, 1);
+            _animatorController.SetSwordPoseTrigger();
         }
+    }
+
+    private void SwordStrike()
+    {
+        _swordComboStateBehavior.StrikeFinished += OnStrikeFinished;
     }
 
     private void OnShootButtonPressedRight()
@@ -159,7 +167,7 @@ public class PlayerInputHendler : MonoBehaviour
             _gunRight.Fire();
             _mtAimFollowerRight.Kick();
         }
-        else if (_swordController.IsLaunched == false)
+        else if (_swordController.IsLaunched == false && _isStriking == false)
         {
             _swordThrowBehavior.ThrowFinished += OnThrowFinished;
             _animatorController.SetLayerParameters(1,3);
@@ -175,8 +183,11 @@ public class PlayerInputHendler : MonoBehaviour
     private void OnStrikeFinished()
     {
         _weightController.SetRigBehavior(1);
-        _animatorController.SetLayerParameters(1, 0);
-        _swordComboStateBehavior.StrikeFinished += OnStrikeFinished;
+
+        Debug.Log("++");
+
+        _isStriking = false;
+        _swordComboStateBehavior.StrikeFinished -= OnStrikeFinished;
     }
 
     private void OnThrowFinished()

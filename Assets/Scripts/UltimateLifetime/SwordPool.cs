@@ -1,26 +1,10 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class SwordPool : MonoBehaviour
+public class SwordPool : GenericPool<Sword>
 {
-    [SerializeField] private Sword _swordPrefab;
     [SerializeField] private int _defaultCapacity = 10;
-    [SerializeField] private int _maxSize = 50;
     [SerializeField] private ReturnSwordChannel _returnSwordChannel;
-
-    private ObjectPool<Sword> _pool;
-
-    private void Awake()
-    {
-        _pool = new ObjectPool<Sword>(
-            createFunc: CreateSword,
-            actionOnGet: OnGet,
-            actionOnRelease: OnRelease,
-            actionOnDestroy: OnDestroySword,
-            collectionCheck: true,
-            defaultCapacity: _defaultCapacity,
-            maxSize: _maxSize);
-    }
 
     private void OnEnable()
     {
@@ -34,7 +18,7 @@ public class SwordPool : MonoBehaviour
 
     public Sword Spawn(Vector3 position, Quaternion rotation, Transform parent, Transform target)
     {
-        Sword sword = _pool.Get();
+        Sword sword = _basePool.Get();
         sword.transform.SetParent(parent);
         sword.transform.SetPositionAndRotation(position, rotation);
         sword.Initialize(target);
@@ -43,17 +27,12 @@ public class SwordPool : MonoBehaviour
 
     public void Release(Sword sword)
     {
-        _pool.Release(sword);
+        _basePool.Release(sword);
     }
 
-    private Sword CreateSword() => Instantiate(_swordPrefab);
+    protected override void ActionOnGet(Sword sword) => sword.gameObject.SetActive(true);
 
-    private void OnGet(Sword sword) => sword.gameObject.SetActive(true);
+    protected override void ActionOnRelese(Sword sword) => sword.gameObject.SetActive(false);
 
-    private void OnRelease(Sword sword)
-    {
-        sword.gameObject.SetActive(false);
-    }
-
-    private void OnDestroySword(Sword sword) => Destroy(sword.gameObject);
+    protected override void ActionOnDestroy(Sword sword) => Destroy(sword.gameObject);
 }

@@ -183,9 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e536e692e7c779544ae36e235a6e63ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordPool
-  _pooleablePrefab: {fileID: -5490118056263592351, guid: 49419a85270a6154c826e902da4efe09, type: 3}
-  _maxSize: 150
+  _swordPrefab: {fileID: -5490118056263592351, guid: 49419a85270a6154c826e902da4efe09, type: 3}
   _defaultCapacity: 10
+  _maxSize: 150
   _returnSwordChannel: {fileID: 11400000, guid: e964840359658f1429f71541a3f2e54a, type: 2}
 --- !u!1 &131872363
 GameObject:
@@ -234,8 +234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e3c3ab3ee2784e8fac5ce4ec13a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunPool
-  _pooleablePrefab: {fileID: 6758218881646334280, guid: e118daaf210a15c4888cafb83e6e2243, type: 3}
-  _maxSize: 50
+  _bulletPrefab: {fileID: 6758218881646334280, guid: e118daaf210a15c4888cafb83e6e2243, type: 3}
+  _bulletStartPosition: {fileID: 317063094}
   _returnBulletChannel: {fileID: 11400000, guid: 30ece008e79edfe458652fead21254fc, type: 2}
 --- !u!114 &131872366
 MonoBehaviour:
@@ -701,7 +701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraLookController
   _aimTargetProvider: {fileID: 1571898015}
   _target: {fileID: 1310509637}
-  _rotation: {x: 0, y: 0, z: 0}
+  _rotation: {x: -30, y: 0, z: 0}
   _targetOffset: {x: 0, y: 3, z: 0}
   _distance: 6
 --- !u!1 &410087039
@@ -1274,7 +1274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MtAimFollower
   _aimTargetProvider: {fileID: 1571898015}
   _shoulderAnchor: {fileID: 664981342}
-  _handAnchor: {fileID: 632572711}
+  _handAnchor: {fileID: 632572705}
   _lateralOffset: {x: 0.15, y: -0.2, z: 0}
   _reachDistance: 0.6
   _maxHandDistance: 0.1
@@ -1501,8 +1501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8e3c3ab3ee2784e8fac5ce4ec13a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunPool
-  _pooleablePrefab: {fileID: 6758218881646334280, guid: e118daaf210a15c4888cafb83e6e2243, type: 3}
-  _maxSize: 50
+  _bulletPrefab: {fileID: 6758218881646334280, guid: e118daaf210a15c4888cafb83e6e2243, type: 3}
+  _bulletStartPosition: {fileID: 194655010}
   _returnBulletChannel: {fileID: 11400000, guid: 30ece008e79edfe458652fead21254fc, type: 2}
 --- !u!114 &1146809291
 MonoBehaviour:
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310509636}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
   m_Name: 
@@ -1890,7 +1890,6 @@ MonoBehaviour:
   _leftHend: {fileID: 2021330205}
   _rightHend: {fileID: 906087292}
   _rig: {fileID: 676167618}
-  _rigWeightStep: 1
 --- !u!114 &1310509649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,9 +1949,9 @@ MonoBehaviour:
   _maxVelocity: 20
   _minVelocity: 50
   _rotation: {x: 60, y: 0, z: 0}
-  _cameraRotation: {x: 45, y: 0, z: 0}
-  _targetOffset: {x: 0, y: 0, z: 0}
-  _distance: 10
+  _cameraRotation: {x: 0, y: 45, z: 0}
+  _targetOffset: {x: 0, y: 1.6, z: 0}
+  _distance: 8
 --- !u!1 &1424030163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,7 +1998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MtAimFollower
   _aimTargetProvider: {fileID: 1571898015}
   _shoulderAnchor: {fileID: 664981342}
-  _handAnchor: {fileID: 632572705}
+  _handAnchor: {fileID: 632572711}
   _lateralOffset: {x: 0.15, y: -0.2, z: 0}
   _reachDistance: 0.6
   _maxHandDistance: 0.1
@@ -2055,7 +2054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AimTargetProvider
   _aimOrigin: {fileID: 664981342}
-  _aimDistance: 50
+  _aimDistance: 5
   _mouseSensitivity: 0.5
   _stickSensitivity: 120
   _stickDeadzone: 0.15

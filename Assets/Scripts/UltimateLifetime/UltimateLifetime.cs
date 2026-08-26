@@ -20,6 +20,10 @@ public class UltimateLifetime : MonoBehaviour
     [SerializeField] private float _minVelocity;
     [SerializeField] private Vector3 _rotation;
 
+    [SerializeField] private Vector3 _cameraRotation;
+    [SerializeField] private Vector3 _targetOffset;
+    [SerializeField] private float _distance;
+
     private SwordAppearStateBehaviour _appearStateBehaviour;
 
     private bool _isReaduToUlt = false;
@@ -67,7 +71,9 @@ public class UltimateLifetime : MonoBehaviour
     {
         _mover.TargetReached -= OnTargetReached;
 
-        StartCoroutine(DelayedAction(_dellayHendSweep));  
+        StartCoroutine(DelayedAction(_dellayHendSweep));
+
+        _cameraLookController.SetOffsetTooUlt(_distance, _cameraRotation, _targetOffset, null);
     }
 
     private IEnumerator DelayedAction(float dellay)

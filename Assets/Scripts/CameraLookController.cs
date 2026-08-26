@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraLookController : MonoBehaviour
@@ -10,20 +11,23 @@ public class CameraLookController : MonoBehaviour
 
     private bool _isLocked = false;
 
-    private Vector3 _rotationBase;
-    private Vector3 _offsetBase;
-
-    private void Awake()
-    {
-        _rotationBase = _rotation;
-        _offsetBase = _targetOffset;
-    }
+    private bool _isCinematic = false;
 
     private void LateUpdate()
     {
         if (_target == null || _aimTargetProvider == null)
             return;
 
+        if (_isCinematic)
+        {
+            return;
+        }
+
+        SetCameraParans();
+    }
+
+    private void SetCameraParans()
+    {
         Quaternion baseRotation = _isLocked ? _target.rotation : _aimTargetProvider.CurrentLookRotation;
         Quaternion rotation = baseRotation * Quaternion.Euler(_rotation);
 
@@ -33,6 +37,28 @@ public class CameraLookController : MonoBehaviour
         transform.rotation = rotation;
         transform.position = desiredPosition;
     }
+
+    public void SetOffsetTooUlt(float newDistance, Vector3 newRotatiion, Vector3 newOffset, Player player)
+    {
+        _distance = newDistance;
+        _rotation = newRotatiion;
+        _targetOffset = newOffset;
+
+        SetCameraParans();
+
+        if (player != null)
+        {
+            gameObject.transform.parent = player.transform;
+
+        }
+        else
+        {
+            gameObject.transform.parent = null;
+            _isCinematic = true;
+        }
+    }
+
+
 
     public void SetIsLocked(bool isLocked)
     {
