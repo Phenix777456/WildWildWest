@@ -32,7 +32,7 @@ public class SwordPool : GenericPool<Sword>
 
     protected override void ActionOnGet(Sword sword) => sword.gameObject.SetActive(true);
 
-    protected override void ActionOnRelese(Sword sword) => sword.gameObject.SetActive(false);
+    protected override void ActionOnRelease(Sword sword) => sword.gameObject.SetActive(false);
 
     protected override void ActionOnDestroy(Sword sword) => Destroy(sword.gameObject);
 }

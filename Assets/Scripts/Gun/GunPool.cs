@@ -20,7 +20,7 @@ public class GunPool : GenericPool<Bullet>
         bullet.gameObject.SetActive(true);
     }
 
-    protected override void ActionOnRelese(Bullet bullet)
+    protected override void ActionOnRelease(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
     }
