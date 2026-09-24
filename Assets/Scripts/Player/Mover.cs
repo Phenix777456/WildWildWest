@@ -12,6 +12,7 @@ public class Mover : MonoBehaviour
     [SerializeField] private float _bodyRotationSpeed = 480f;
     [SerializeField] private float _moveDuration = 0.5f;
 
+    public bool IsMoving { get; private set; } = false;
 
     [Header("Aim Dead Zone")]
     [SerializeField] private float _aimDeadZoneAngle = 70f;
@@ -20,6 +21,7 @@ public class Mover : MonoBehaviour
     public float StartMoveSpeed => _moveSpeed;
 
     private bool _isLocked = false;
+
 
     private Coroutine _moveRoutine;
 
@@ -96,9 +98,12 @@ public class Mover : MonoBehaviour
         _moveRoutine = StartCoroutine(MoveRoutine(targetPosition, speed));
     }
 
-    public void SetDashVelocity()
+    public void SetDashVelocity(float timing)
     {
         _playerRb.linearVelocity = transform.forward * _dashSpeed;
+
+        if (timing != -1)
+            StartCoroutine(DashDellay(timing));
     }
 
     public void StopDash()
@@ -122,6 +127,13 @@ public class Mover : MonoBehaviour
         _moveRoutine = null;
     }
 
+    private IEnumerator DashDellay(float dellay)
+    {
+        yield return new WaitForSeconds(dellay);
+
+        _playerRb.linearVelocity = Vector3.zero;
+    }
+
     public bool IsAimOutOfDeadZone(float aimYaw)
     {
         float currentYaw = transform.eulerAngles.y;
@@ -132,6 +144,11 @@ public class Mover : MonoBehaviour
     public void SetIsLocked(bool isLocked)
     {
         _isLocked = isLocked;
+    }
+
+    public void SetIsMoving(bool isMoving)
+    {
+        IsMoving = isMoving;
     }
 
     public void SetMoveSpeed(float moveSpeed)

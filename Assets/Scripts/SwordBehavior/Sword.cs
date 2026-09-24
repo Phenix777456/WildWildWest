@@ -14,9 +14,9 @@ public class Sword : MonoBehaviour
     [SerializeField] private ReturnSwordChannel _returnSwordChannel;
     [SerializeField] private ParticleSystem _burstEffect;
 
-    private Renderer _renderer;
+
     private Rigidbody _rigitbody;
-    private MaterialPropertyBlock _propertyBlock;
+
     private Transform _target;
     private float _timer;
     private SwordTrigger _swordTrigger; 
@@ -25,13 +25,9 @@ public class Sword : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
-
         _swordTrigger = GetComponent<SwordTrigger>();
 
         _rigitbody = GetComponent<Rigidbody>();
-
-        _propertyBlock = new MaterialPropertyBlock();
 
         if (_isInHend == false)
         {
@@ -54,13 +50,19 @@ public class Sword : MonoBehaviour
     public void Initialize(Transform target)
     {
         _target = target;
-        _baseRotation = transform.rotation; 
-        _timer = 0f;                        
-      
+        _baseRotation = transform.rotation;
+        _timer = 0f;
+        _isInHend = false;
     }
 
     private void OnGroundTouched()
     {
+        if (_isInHend)
+        {
+            _swordTrigger.GroundTouched -= OnGroundTouched;
+            return;
+        }
+
         ParticleSystem thisParticle  =  Instantiate(_burstEffect);
 
         thisParticle.transform.position = gameObject.transform.position;

@@ -27,15 +27,16 @@ public class StartBehavior : MonoBehaviour
         switch (_state)
         {
             case BehaviorState.Free:
-                BehaviorCondition(false, 0);
+                BehaviorCondition(false, 0, 0);
                 break;
 
             case BehaviorState.Gun:
-                BehaviorCondition(true, 1);
+                BehaviorCondition(true, 1, 1);
                 break;
 
             case BehaviorState.Sword:
-                BehaviorCondition(false, 0);
+                BehaviorCondition(false, 0, 0);
+               
                 break;
         }
        
@@ -60,15 +61,18 @@ public class StartBehavior : MonoBehaviour
     public void SetIsGun()
     {
         _weightController.SetRigBehavior(0);
-        BehaviorCondition(false, 0);
+        BehaviorCondition(false, 0, -1);
     }
 
-    private void BehaviorCondition(bool condition, float weightCondition)
+    private void BehaviorCondition(bool condition, float weightCondition, float targetWeight)
     {
         _playerInputHendler.SetIsWidthGun(condition);
         _weightController.SetConstrainsBehavior(weightCondition, weightCondition);
         ChangeGunsActivity(condition, condition);
         ChangeSwordActivity(!condition);
+
+        if (targetWeight != -1)
+            _weightController.SetRigBehavior(targetWeight);
     }
 
     private void ChangeGunsActivity(bool ActivityGunLeft, bool ActivityGunRight)

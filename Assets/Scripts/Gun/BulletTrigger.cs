@@ -13,7 +13,9 @@ public class BulletTrigger : MonoBehaviour
     {
         _returnBulletChannel.Release(gameObject.GetComponent<Bullet>());
 
-        if (collision.gameObject.layer == _layerMask)
+        bool isTargetLayer = (_layerMask.value & (1 << collision.gameObject.layer)) != 0;
+
+        if (isTargetLayer)
             EnemyHited?.Invoke(this);
     }
 }

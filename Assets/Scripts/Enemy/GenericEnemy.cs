@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Playables;
 
 public abstract class GenericEnemy<TEnamy> : MonoBehaviour  where TEnamy : MonoBehaviour
 {
-    protected Transform _target; 
+    [SerializeField] private bool _isPlayable;
+    protected Transform _target;
 
     protected abstract void Attack();
 
@@ -10,6 +12,9 @@ public abstract class GenericEnemy<TEnamy> : MonoBehaviour  where TEnamy : MonoB
 
     public void Initialise(Transform target)
     {
-        _target = target; 
+        _target = target;
+
+        if (_isPlayable)
+            StartBehavior(_target);
     }
 }

@@ -5,15 +5,16 @@ using static UnityEngine.GraphicsBuffer;
 public class EnemyNear : GenericEnemy<EnemyNear>
 {
     [SerializeField] private EnamyMover _mover;
+    [SerializeField] private HealthController _health;
+    [SerializeField] private AnimatorController _animator;
+
+    public bool IsAttacking { get; private set; } 
+
+    public IDamageable Damageable => _health;
 
     private void OnEnable()
     {
         _mover.TargetReached += OnTargetReached;
-    }
-
-    private void Start()
-    {
-        StartBehavior(_target);
     }
 
     private void OnDisable()
@@ -23,6 +24,8 @@ public class EnemyNear : GenericEnemy<EnemyNear>
 
     private void OnTargetReached()
     {
+        IsAttacking = true;
+
         Attack();
 
         StartCoroutine(AttackDellay(1));
@@ -31,7 +34,8 @@ public class EnemyNear : GenericEnemy<EnemyNear>
 
     protected override void Attack()
     {
-        Debug.Log("Attack");
+        _mover.SincRotation(_target);
+        _animator.SetSwordPoseTrigger();
     }
 
     protected override void StartBehavior(Transform target)
@@ -44,8 +48,12 @@ public class EnemyNear : GenericEnemy<EnemyNear>
     {
         yield return new WaitForSeconds(dellay);
 
+        IsAttacking = false;
+
         if (_mover.HasReachedTarget(_target.position))
         {
+            IsAttacking = true;
+
             Attack();
 
             StartCoroutine(AttackDellay(1));

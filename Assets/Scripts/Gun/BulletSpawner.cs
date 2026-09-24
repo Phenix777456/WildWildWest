@@ -29,6 +29,7 @@ public class BulletSpawner : MonoBehaviour
 
     private void OnEnemyHited(BulletTrigger bulletTrigger)
     {
+        Debug.Log("Heated");
         PointsHendled?.Invoke();
         
         bulletTrigger.EnemyHited -= OnEnemyHited;

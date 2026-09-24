@@ -8,12 +8,14 @@ public class Player : MonoBehaviour
     [SerializeField] private SwordController _swordController;
     [SerializeField] private Mover _mover;
     [SerializeField] private AnimatorController _animatorController;
+    [SerializeField] private HealthController _healthController;
 
     private const float TeleportThresholdSqr = 5f;
 
     private void OnEnable()
     {
         _playerInputHandler.TeleportRequested += OnTeleportRequested;
+        _healthController.Died += OnDied;
     }
 
     private void Start()
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         _playerInputHandler.TeleportRequested += OnTeleportRequested;
+        _healthController.Died -= OnDied;
     }
 
     private void OnTeleportRequested()
@@ -48,5 +51,10 @@ public class Player : MonoBehaviour
         }
 
         _playerInputHandler.OnDashButtonIsPressed();
+    }
+
+    private void OnDied()
+    {
+        gameObject.SetActive(false);
     }
 }

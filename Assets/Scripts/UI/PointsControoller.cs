@@ -10,7 +10,7 @@ public class PointsControoller : MonoBehaviour
     private int _baseCount = 10;
 
     [Header("Skils Costs:")]
-    [SerializeField] private float _ultimateCost = 1;
+    [SerializeField] private float _ultimateCost;
 
     public event Action SpBarFilled;
 
@@ -30,9 +30,12 @@ public class PointsControoller : MonoBehaviour
     {
         _barController.ChangeHpBar(_baseCount);
 
-        if( _barController.CheckHPFill() >= _ultimateCost)
+        Debug.Log(_barController.CheckHPFill());
+
+        if (_barController.CheckHPFill() >= (_ultimateCost / 100))
         {
             SpBarFilled.Invoke();
+            Debug.Log("UltReady");
         }
     }
 }

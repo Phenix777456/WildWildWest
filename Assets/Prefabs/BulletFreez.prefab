@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6758218881646334280}
   - component: {fileID: -6269276900654697022}
   - component: {fileID: -1918298492731155605}
+  - component: {fileID: -2314660534983579359}
+  - component: {fileID: 7551568079217516881}
   m_Layer: 0
   m_Name: BulletFreez
   m_TagString: Untagged
@@ -282,4 +284,32 @@ MonoBehaviour:
   _returnBulletChannel: {fileID: 11400000, guid: 30ece008e79edfe458652fead21254fc, type: 2}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
+--- !u!114 &-2314660534983579359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2371670562286230551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf82e06602400954f8714862081f84ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponTrigger
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _damage: 30
+--- !u!114 &7551568079217516881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2371670562286230551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bab8ace5e555df4db1050493337f731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageDealer

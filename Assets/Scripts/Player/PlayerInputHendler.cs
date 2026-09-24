@@ -124,7 +124,7 @@ public class PlayerInputHendler : MonoBehaviour
     {
         _mover.SetIsLocked(false);
         _animatorController.SetDashTrigger();
-        _mover.SetDashVelocity();
+        _mover.SetDashVelocity(-1);
 
         StartCoroutine(_animatorController.DashUntillEnd());
     }
@@ -149,8 +149,13 @@ public class PlayerInputHendler : MonoBehaviour
         {
             if (_isStriking == false)
                 SwordStrike();
+
             _isStriking = true;
-            _weightController.SetRigBehavior(0);
+            _mover.SetIsLocked(_isStriking);
+
+            if (_mover.IsMoving == true)
+                _mover.SetDashVelocity(0.5f);
+
             _animatorController.SetSwordPoseTrigger();
         }
     }
@@ -182,11 +187,8 @@ public class PlayerInputHendler : MonoBehaviour
 
     private void OnStrikeFinished()
     {
-        _weightController.SetRigBehavior(1);
-
-        Debug.Log("++");
-
         _isStriking = false;
+        _mover.SetIsLocked(_isStriking);
         _swordComboStateBehavior.StrikeFinished -= OnStrikeFinished;
     }
 
@@ -241,14 +243,15 @@ public class PlayerInputHendler : MonoBehaviour
 
             if (hasInput)
             {
-    
                 _mover.RotateTowards(_direction);
                 _mover.Move(_direction);
+                _mover.SetIsMoving(hasInput);
             }
             else
             {
                 _animatorController.SetMoving(true);
                 _mover.RotateBodyToAimIfOutOfDeadZone(_aimTargetProvider.CurrentYaw);
+                _mover.SetIsMoving(hasInput);
             }
 
             _animatorController.SetMoving(hasInput);

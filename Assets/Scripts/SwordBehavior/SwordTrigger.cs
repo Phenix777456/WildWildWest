@@ -7,9 +7,9 @@ public class SwordTrigger : MonoBehaviour
 
     public event Action GroundTouched;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (IsGroundLayer(collision.gameObject.layer) == false)
+        if (IsGroundLayer(collider.gameObject.layer) == false)
             return;
 
         GroundTouched?.Invoke();

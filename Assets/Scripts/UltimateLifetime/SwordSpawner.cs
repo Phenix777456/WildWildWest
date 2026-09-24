@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +13,13 @@ public class SwordSpawner : MonoBehaviour
     [SerializeField] private int _waveCount;
     [SerializeField] private float _delayBetweenWaves;
     [SerializeField] private float _spawnRadius;
+
+    [Header("Model Orientation Fix")]
+    [Tooltip("Компенсация несовпадения локальной оси клинка (Y) с направлением LookRotation (Z).")]
+    [SerializeField] private float _bladeAxisCorrectionAngle;
+
+    [Tooltip("Дополнительный доворот вокруг ГЛОБАЛЬНОЙ оси Y после базовой ориентации.")]
+    [SerializeField] private float _globalYawCorrectionAngle;
 
     private Coroutine _spawnRoutine;
 
@@ -51,7 +58,8 @@ public class SwordSpawner : MonoBehaviour
         float angleOffset = waveIndex * (angleStep / 2f);
 
         Vector3 centerPosition = _target.position + _target.forward * _forwardOffset;
-        Quaternion spawnRotation = _target.rotation * Quaternion.Euler(new Vector3(0, 90, 0));
+
+        Quaternion spawnRotation = GetSwordSpawnRotation();
 
         for (int i = 0; i < _swordsPerWave; i++)
         {
@@ -65,6 +73,16 @@ public class SwordSpawner : MonoBehaviour
             _swords.Add(_swordPool.Spawn(spawnPosition, spawnRotation, transform, _target));
         }
     }
+
+    private Quaternion GetSwordSpawnRotation()
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(_target.forward, _target.up);
+        Quaternion axisFix = Quaternion.Euler(_bladeAxisCorrectionAngle, 0f, 0f);
+        Quaternion globalYawFix = Quaternion.Euler(0f, _globalYawCorrectionAngle, 0f);
+
+        return globalYawFix * lookRotation * axisFix;
+    }
+
 
     public List<Sword> GetSwordsList()
     {

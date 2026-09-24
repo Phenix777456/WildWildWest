@@ -22,4 +22,9 @@ public class EnemyNearPool : GenericPool<EnemyNear>
     {
         return _basePool.Get();
     }
+
+    public void ReleaseEnemy(EnemyNear enemy)
+    {
+        _basePool.Release(enemy);
+    }
 }
